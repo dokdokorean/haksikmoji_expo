@@ -7,10 +7,13 @@ const SignatureInput = () => {
   const ref = useRef(null);
   const navigation = useNavigation();
 
-  const handleSignature = signature => {
-    const base64Image = `data:image/png;base64,${signature}`;
-    navigation.navigate('Signin', { signature: base64Image });
-  };
+const handleSignature = signature => {
+  console.log('Signature:', signature); // base64 코드 출력
+  const base64Image = `data:image/png;base64,${signature}`;
+  console.log('Base64 Image:', base64Image); // 전체 base64 코드 확인
+  navigation.navigate('Signin', { signature: base64Image });
+};
+
 
   const handleClear = () => {
     ref.current.clearSignature();

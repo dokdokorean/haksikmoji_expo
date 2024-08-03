@@ -6,6 +6,9 @@ const Login = ({ navigation }) => {
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
 
+    const Gotosignin = () =>{
+        navigation.navigate('Signin')
+    }
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={styles.container}
@@ -15,10 +18,6 @@ const Login = ({ navigation }) => {
             <Image
                 source={require('../assets/logo.png')}
                 style={styles.logo}
-                onError={(error) => {
-                    console.error('Image load error:', error);
-                    Alert.alert('Image Load Error', 'Failed to load the logo image.');
-                }}
             />
             <Text style={styles.titleText}>로그인</Text>
             <TextInput
@@ -40,7 +39,7 @@ const Login = ({ navigation }) => {
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>로그인</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={Gotosignin}>
                 <Text style={styles.signupText}>회원가입하기</Text>
             </TouchableOpacity>
         </KeyboardAwareScrollView>

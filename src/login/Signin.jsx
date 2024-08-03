@@ -191,8 +191,7 @@ const Signin = ({ route, navigation }) => {
             }).start();
         } else {
             await saveProfileData();
-            console.log(signature)
-            // navigation.navigate('TabNavigation');
+            navigation.navigate('TabNavigation');
         }
     };
 
