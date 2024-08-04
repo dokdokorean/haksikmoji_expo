@@ -220,7 +220,7 @@ const Signin = ({ route, navigation }) => {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <KeyboardAwareScrollView contentContainerStyle={styles.container}>
+            <KeyboardAwareScrollView contentContainerStyle={styles.container} scrollEnabled={false}>
                 <SigninHeader onBack={handleBack} />
                 <View style={styles.progressBarContainer}>
                     <Animated.View style={[styles.progressBar, {

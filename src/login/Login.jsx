@@ -13,7 +13,7 @@ const Login = ({ navigation }) => {
         <KeyboardAwareScrollView
             contentContainerStyle={styles.container}
             resetScrollToCoords={{ x: 0, y: 0 }}
-            scrollEnabled={true}
+            scrollEnabled={false}
         >
             <Image
                 source={require('../assets/logo.png')}

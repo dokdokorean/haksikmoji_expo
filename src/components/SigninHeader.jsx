@@ -4,7 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 
 const SigninHeader = ({ onBack }) => {
     const navigation = useNavigation();
-
     return (
         <View style={styles.view}>
             <Pressable style={styles.backButton} onPress={onBack}>
