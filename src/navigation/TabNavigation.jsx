@@ -27,7 +27,7 @@ const CustomTabIcon = ({ source, focused }) => {
 const TabNavigation = () => {
     return (
         <Tab.Navigator
-            initialRouteName="CalenderMain"
+            initialRouteName="Home"
             screenOptions={{
                 tabBarActiveTintColor: '#84A2BB',
                 tabBarInactiveTintColor: '#BDBDBD',

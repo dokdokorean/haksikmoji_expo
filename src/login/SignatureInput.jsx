@@ -8,9 +8,7 @@ const SignatureInput = () => {
   const navigation = useNavigation();
 
 const handleSignature = signature => {
-  console.log('Signature:', signature); // base64 코드 출력
-  const base64Image = `data:image/png;base64,${signature}`;
-  console.log('Base64 Image:', base64Image); // 전체 base64 코드 확인
+  const base64Image = `${signature}`;
   navigation.navigate('Signin', { signature: base64Image });
 };
 
@@ -35,8 +33,8 @@ const handleSignature = signature => {
         webStyle={styles.webStyle}
       />
       <View style={styles.buttonContainer}>
-        <Button title="Clear" onPress={handleClear} />
-        <Button title="Save" onPress={handleConfirm} />
+        <Button style={styles.signaturebutton} title="지우기" onPress={handleClear} />
+        <Button style={styles.signaturebutton} title="저장" onPress={handleConfirm} />
       </View>
     </View>
   );
@@ -50,7 +48,13 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    margin: 20,
+    position:'absolute',
+    left:0,
+    top:'50%',
+    transform: [{ rotate: '90deg' }],
+  },
+  signaturebutton:{
+
   },
   webStyle: `
     .m-signature-pad {

@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, Button, ScrollView, TouchableOpacity, StyleSheet, Image, Platform } from 'react-native';
 import { format, startOfWeek, addDays } from 'date-fns';
-import MainHeader from '../components/MainHeader'
+import MainHeader from '../components/MainHeader';
+import { BASE_URL } from '../service/Api';
+import axios from 'axios';
 
 const Home = ({ navigation }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [weekDays, setWeekDays] = useState([]);
+    const [menuList, setMenuList] = useState([]);
 
     useEffect(() => {
         updateWeekDays(selectedDate);
+        getMenuForDay(selectedDate);
     }, [selectedDate]);
 
     const updateWeekDays = (date) => {
@@ -19,6 +23,7 @@ const Home = ({ navigation }) => {
 
     const handleDayPress = (day) => {
         setSelectedDate(day);
+        getMenuForDay(day);
     };
 
     const getCurrentDate = () => {
@@ -30,7 +35,24 @@ const Home = ({ navigation }) => {
         return `${month}월 ${day}일 ${weekDay}`;
     };
 
-    const welcomemessages = [
+    const getMenuForDay = async (date) => {
+        const dayOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()];
+        try {
+            const request = await axios.get(`${BASE_URL}/api/haksik`);
+            const response = await request.data;
+            const data = await response.body;
+
+            setMenuList(data.menu[dayOfWeek] || []);
+        } catch (error) {
+            console.error('Error fetching records:', error);
+        }
+    };
+
+    const StoreDetail = () => {
+        navigation.navigate('GeneralStore');
+    };
+
+    const welcomeMessages = [
         '오늘도 화이팅이에요!',
         '조금만 버티면 주말이에요!',
         '중간고사 화이팅하세요!',
@@ -38,15 +60,15 @@ const Home = ({ navigation }) => {
     ];
 
     const getRandomMessage = () => {
-        const randomIndex = Math.floor(Math.random() * welcomemessages.length);
-        return welcomemessages[randomIndex];
+        const randomIndex = Math.floor(Math.random() * welcomeMessages.length);
+        return welcomeMessages[randomIndex];
     };
 
     return (
         <View style={styles.container}>
-            <MainHeader/>
+            <MainHeader />
             <ScrollView style={styles.main} showsVerticalScrollIndicator={false}>
-                <Text style={styles.welcomemessages}>{getRandomMessage()}</Text>
+                <Text style={styles.welcomeMessages}>{getRandomMessage()}</Text>
                 <Text style={styles.date}>{getCurrentDate()}</Text>
 
                 <View style={styles.cafeteriaSection}>
@@ -66,16 +88,16 @@ const Home = ({ navigation }) => {
                                 </TouchableOpacity>
                             ))}
                         </View>
-                        <Text style={styles.menuList}>메뉴의 리스트</Text>
-                        <Text style={styles.menuList}>메뉴의 리스트</Text>
-                        <Text style={styles.menuList}>메뉴의 리스트</Text>
-                        <Text style={styles.menuList}>메뉴의 리스트</Text>
-                        <Text style={styles.menuList}>메뉴의 리스트</Text>
-                        <Text style={styles.menuList}>메뉴의 리스트</Text>
-                        <Text style={styles.menuList}>메뉴의 리스트</Text>
-                        <Text style={styles.menuList}>메뉴의 리스트</Text>
-
-                        <Button title="자세히 보기 >" onPress={() => { }} />
+                        <View>
+                            {menuList.length > 0 ? (
+                                menuList.map((menu, index) => (
+                                    <Text key={index} style={styles.menuList}>{menu}</Text>
+                                ))
+                            ) : (
+                                <Text style={styles.menuList}>메뉴가 없습니다.</Text>
+                            )}
+                        </View>
+                        <Button title="자세히 보기 >" onPress={StoreDetail} />
                     </View>
                     <Text style={styles.notice}>메뉴가 정확하지 않을 수 있습니다. {'\n'}매장 상세페이지에 들어가면 사장님께 문의를 넣을 수 있어요.</Text>
                 </View>
@@ -94,7 +116,7 @@ const Home = ({ navigation }) => {
                     <View style={styles.coupon}>
                         <Text>쿠폰 제목</Text>
                         <View style={styles.couponDetails}>
-                            <Image style={styles.qrcode} source={(require('../assets/logo.png'))}/>
+                            <Image style={styles.qrcode} source={require('../assets/logo.png')} />
                             <Text>사용처</Text>
                             <Text>가격</Text>
                         </View>
@@ -110,7 +132,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff'
     },
-    welcomemessages: {
+    welcomeMessages: {
         fontWeight: '600',
         fontSize: 20,
         marginBottom: 10
@@ -191,9 +213,9 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         top: -9.5,
     },
-    qrcode:{
-        width:70,
-        height:70
+    qrcode: {
+        width: 70,
+        height: 70
     }
 });
 

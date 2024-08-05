@@ -162,7 +162,8 @@ const Signin = ({ route, navigation }) => {
                 {signature ? (
                     <Image
                         source={{uri : signature}}
-                        style={{ width: 300, height: 50, resizeMode:'contain', borderWidth: 1, borderColor: 'red' }}
+                        style={{
+                            width: 300, height: 300, resizeMode: 'contain', transform: [{ rotate: '-90deg' }],}}
                     />
                 ) : (
                     <Text style={styles.signaturePlaceholder}>
@@ -376,8 +377,8 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     signaturePad: {
-        width: '80%',
-        height: 200,
+        width: 300,
+        height: 300,
         backgroundColor: '#f5f5f5',
         borderColor: '#ccc',
         borderWidth: 1,

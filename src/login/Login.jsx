@@ -6,6 +6,9 @@ const Login = ({ navigation }) => {
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
 
+    const GotoMain = () => {
+        navigation.navigate('TabNavigation')
+    }
     const Gotosignin = () =>{
         navigation.navigate('Signin')
     }
@@ -36,7 +39,7 @@ const Login = ({ navigation }) => {
             <View style={styles.row}>
                 {/* 필요한 경우 여기에 추가할 내용 */}
             </View>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity onPress={GotoMain} style={styles.button}>
                 <Text style={styles.buttonText}>로그인</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={Gotosignin}>

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, Text, StyleSheet, View, Image, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 const CategoryHeader = ({ onBack }) => {
-    const navigation = useNavigation();
     const [selectedOption, setSelectedOption] = useState('건물별');
     const [selectedBuilding, setSelectedBuilding] = useState('건물 1');
     const [selectedCategory, setSelectedCategory] = useState('종류 1');

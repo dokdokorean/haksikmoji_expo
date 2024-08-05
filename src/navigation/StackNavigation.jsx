@@ -8,12 +8,13 @@ import TabNavigation from './TabNavigation';
 import Category from '../main/Category';
 import Like from '../main/Like';
 import Myinfo from '../main/Myinfo';
+import GeneralStore from '../storedetails/GeneralStore'
 
 const Stack = createStackNavigator();
 
 const StackNavigation = () => {
     return (
-        <Stack.Navigator initialRouteName="TabNavigation">
+        <Stack.Navigator initialRouteName="Login">
             <Stack.Screen
                 name="Login"
                 component={Login}
@@ -52,6 +53,11 @@ const StackNavigation = () => {
             <Stack.Screen
                 name="Myinfo"
                 component={Myinfo}
+                options={{ headerShown: false, gestureEnabled: false }}
+            />
+            <Stack.Screen
+                name="GeneralStore"
+                component={GeneralStore}
                 options={{ headerShown: false, gestureEnabled: false }}
             />
         </Stack.Navigator>
