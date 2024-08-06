@@ -9,6 +9,7 @@ import Category from '../main/Category';
 import Like from '../main/Like';
 import Myinfo from '../main/Myinfo';
 import GeneralStore from '../storedetails/GeneralStore'
+import Search from '../search/Search';
 
 const Stack = createStackNavigator();
 
@@ -23,7 +24,7 @@ const StackNavigation = () => {
             <Stack.Screen
                 name="Signin"
                 component={Signin}
-                options={{ headerShown: false }}
+                options={{ headerShown: false, gestureEnabled: false }}
             />
             <Stack.Screen
                 name="SignatureInput"
@@ -58,7 +59,12 @@ const StackNavigation = () => {
             <Stack.Screen
                 name="GeneralStore"
                 component={GeneralStore}
-                options={{ headerShown: false, gestureEnabled: false }}
+                options={{ headerShown: false}}
+            />
+            <Stack.Screen
+                name="Search"
+                component={Search}
+                options={{ headerShown: false }}
             />
         </Stack.Navigator>
     );

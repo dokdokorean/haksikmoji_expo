@@ -2,15 +2,18 @@ import React from 'react';
 import { TouchableOpacity, Image, Text, StyleSheet, Pressable, View, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const SigninHeader = ({ onBack }) => {
+const MainHeader = ({ }) => {
     const navigation = useNavigation();
 
+    const Search = () => {
+        navigation.navigate('Search');
+    };
     return (
         <View style={styles.view}>
             <Text style={styles.logotext}>연세대 학식모지</Text>
             <View style = {styles.buttonview}>
                 <Button title='🔔'></Button>
-                <Button title='🔍'></Button>                
+                <Button title='🔍' onPress={Search}></Button>                
             </View>
         </View>
     );
@@ -38,5 +41,5 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SigninHeader;
+export default MainHeader;
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, ScrollView, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, Button, ScrollView, TouchableOpacity, StyleSheet, Image, RefreshControl } from 'react-native';
 import { format, startOfWeek, addDays } from 'date-fns';
 import MainHeader from '../components/MainHeader';
 import { BASE_URL } from '../service/Api';
@@ -10,10 +10,33 @@ const Home = ({ navigation }) => {
     const [weekDays, setWeekDays] = useState([]);
     const [menuList, setMenuList] = useState([]);
     const [allMenus, setAllMenus] = useState({});
+    const [welcomeMessage, setWelcomeMessage] = useState('');
+    const [isRefreshing, setIsRefreshing] = useState(false);
+
+    const handleRefresh = async () => {
+        console.log('handleRefreshStore');
+        setIsRefreshing(true);
+        fetchAllMenus();
+        setIsRefreshing(false);
+        getRandomMessage();
+    };
+
+    const welcomeMessages = [
+        '오늘도 화이팅이에요!',
+        '조금만 버티면 주말이에요!',
+        '중간고사 화이팅하세요!',
+        '밥은 먹고 다니니..?'
+    ];
+
+    useEffect(() => {
+        fetchAllMenus();
+        loadMenus();
+        setWelcomeMessage(getRandomMessage());
+    }, []);
 
     useEffect(() => {
         updateWeekDays(selectedDate);
-        fetchAllMenus();
+        loadMenus();
     }, [selectedDate]);
 
     const updateWeekDays = (date) => {
@@ -37,6 +60,11 @@ const Home = ({ navigation }) => {
         return `${month}월 ${day}일 ${weekDay}`;
     };
 
+    const loadMenus = () => {
+        const initialDayOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][selectedDate.getDay()];
+        setMenuList(allMenus[initialDayOfWeek] || []);
+    };
+
     const fetchAllMenus = async () => {
         try {
             const request = await axios.get(`${BASE_URL}/api/haksik`);
@@ -44,34 +72,25 @@ const Home = ({ navigation }) => {
             const data = await response.body;
 
             setAllMenus(data.menu || {});
-            const initialDayOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][selectedDate.getDay()];
-            setMenuList(data.menu[initialDayOfWeek] || []);
         } catch (error) {
             console.error('Error fetching records:', error);
         }
     };
-
-    const StoreDetail = () => {
-        navigation.navigate('GeneralStore');
-    };
-
-    const welcomeMessages = [
-        '오늘도 화이팅이에요!',
-        '조금만 버티면 주말이에요!',
-        '중간고사 화이팅하세요!',
-        '밥은 먹고 다니니..?'
-    ];
 
     const getRandomMessage = () => {
         const randomIndex = Math.floor(Math.random() * welcomeMessages.length);
         return welcomeMessages[randomIndex];
     };
 
+    const StoreDetail = () => {
+        navigation.navigate('GeneralStore');
+    };
+
     return (
         <View style={styles.container}>
             <MainHeader />
-            <ScrollView style={styles.main} showsVerticalScrollIndicator={false}>
-                <Text style={styles.welcomeMessages}>{getRandomMessage()}</Text>
+            <ScrollView style={styles.main} refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}showsVerticalScrollIndicator={false}>
+                <Text style={styles.welcomeMessages}>{welcomeMessage}</Text>
                 <Text style={styles.date}>{getCurrentDate()}</Text>
 
                 <View style={styles.cafeteriaSection}>
