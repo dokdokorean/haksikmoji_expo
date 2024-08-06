@@ -12,9 +12,17 @@ import {
     ScrollView,
     Image
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Dropdown } from 'react-native-element-dropdown';
 import SigninHeader from '../components/SigninHeader';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { KeyboardAccessoryView } from 'react-native-keyboard-accessory';
+
+const data = [
+    { label: '연세대학교 미래캠퍼스', value: '1' },
+    { label: '강릉원주대학교', value: '2' },
+    { label: '한라대학교', value: '3' },
+];
 
 const Signin = ({ route, navigation }) => {
     const { signature } = route.params || {};
@@ -23,65 +31,236 @@ const Signin = ({ route, navigation }) => {
     const [studentid, setStudentid] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+    const [Email, setEmail] = useState('');
+    const [CertificationCode, setCertificationCode] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordMatch, setPasswordMatch] = useState(true);
     const [agree, setAgree] = useState(false);
     const progress = useRef(new Animated.Value(0)).current;
-    let SingnatureImage = "";
+
+    const [isFocus1, setisFocus1] = useState(false);
+    const [isFocus2, setisFocus2] = useState(false);
+
+    const handleFocusName = () => {
+        setisFocus1(true);
+    };
+
+    const handleFocusStudentid = () => {
+        setisFocus2(true);
+    };
+
+    const handleBlurName = () => {
+        setisFocus1(false);
+    };
+
+    const handleBlurStudentid = () => {
+        setisFocus2(false);
+    };
+
+    const handleFocusEmail = () => {
+        setisFocus1(true);
+    };
+
+    const handleFocusCertificationCode = () => {
+        setisFocus2(true);
+    };
+
+    const handleBlurEmail = () => {
+        setisFocus1(false);
+    };
+
+    const handleBlurCertificationCode= () => {
+        setisFocus2(false);
+    };
+
+    const handleFocusPassword = () => {
+        setisFocus1(true);
+    };
+
+    const handleFocusPasswordre= () => {
+        setisFocus2(true);
+    };
+
+    const handleBlurPassword = () => {
+        setisFocus1(false);
+    };
+
+    const handleBlurPasswordre = () => {
+        setisFocus2(false);
+    };
+
+    const clearName = () => {
+        setName('');
+    };
+
+    const clearSudentid = () => {
+        setStudentid('');
+    };
 
     const renderUniversitySelection = () => (
-        <View style={styles.selectionContainer}>
-            <Picker
-                selectedValue={univ}
-                onValueChange={(itemValue) => setUniv(itemValue)}
-                style={styles.picker}
-            >
-                <Picker.Item label="연세대학교 미래캠퍼스" value="연세대학교 미래캠퍼스" />
-                <Picker.Item label="한라대학교" value="한라대학교" />
-                <Picker.Item label="강릉원주대학교" value="강릉원주대학교" />
-            </Picker>
+        <View style={[styles.selectionContainer, isFocus1 && { borderColor:'#fff',borderBottomRightRadius:0,borderBottomLeftRadius:0}]}>
+            <View style={styles.innerContainer}>
+                <Dropdown
+                    style={[styles.dropdown, isFocus1 && { borderColor: '#111111', height:48,top:-11,borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }]}
+                    placeholderStyle={styles.placeholderStyle}
+                    selectedTextStyle={styles.selectedTextStyle}
+                    data={data}
+                    maxHeight={300}
+                    labelField="label"
+                    valueField="value"
+                    placeholder={'학교를 선택해 주세요'}
+                    value={univ}
+                    onFocus={() => setisFocus1(true)}
+                    onBlur={() => setisFocus1(false)}
+                    onChange={item => {
+                        setUniv(item.value);
+                        setisFocus1(false);
+                    }}
+                    containerStyle={styles.dropdowncontainer}
+                    renderRightIcon={() => (
+                        <AntDesign
+                            style={{
+                                transform: [{ rotate: isFocus1 ? '180deg' : '0deg' }],marginRight:16
+                            }}
+                            color={'#111111'}
+                            name="down"
+                            size={15}
+                        />
+                    )}
+                />            
+            </View> 
+        </View>
+    );
+    const renderStudentIdName = () => (
+        <View>
+            <View style={[styles.inputcomponent,isFocus1 && {borderColor:'#111111'}]}>
+                <View style={styles.innercomponenet}>
+                    <Text style={styles.inputcomponenttext}>이름</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="이름을 입력해주세요"
+                        value={name}
+                        onChangeText={setName}
+                        onFocus={handleFocusName}
+                        onBlur={handleBlurName}
+                    />
+                    {name.length > 0 && (
+                        <TouchableOpacity onPress={clearName} style={styles.clearButton}>
+                            <Image style={{resizeMode:'contain',width:14,height:14}} source={require('../assets/inputcomponenteraseall.png')}/>
+                        </TouchableOpacity>
+                    )}                
+                </View>
+            </View>
+            <View style={[styles.inputcomponent, isFocus2 && { borderColor: '#111111' }]}>
+                <View style={styles.innercomponenet}>
+                    <Text style={styles.inputcomponenttext}>학번</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="학번을 입력해주세요"
+                        value={studentid}
+                        onChangeText={setStudentid}
+                        onFocus={handleFocusStudentid}
+                        onBlur={handleBlurStudentid}
+                    />
+                    {studentid.length > 0 && (
+                        <TouchableOpacity onPress={clearSudentid} style={styles.clearButton}>
+                            <Image style={{ resizeMode: 'contain', width: 14, height: 14 }} source={require('../assets/inputcomponenteraseall.png')} />
+                        </TouchableOpacity>
+                    )}
+                </View>
+            </View>
+            <Text style={{ color:'#DC0000', marginLeft:10}}>이름 혹은 학번이 일치하지 않아요.</Text>
         </View>
     );
 
-    const renderStudentIdName = () => (
+    const renderEmailInput = () => (
         <View>
-            <TextInput
-                style={styles.input}
-                placeholder="이름을 입력해주세요"
-                value={name}
-                onChangeText={setName}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="학번을 입력해주세요"
-                value={studentid}
-                onChangeText={setStudentid}
-                keyboardType="numeric"
-            />
+            <View style={[styles.inputcomponent, isFocus1 && { borderColor: '#111111' }]}>
+                <View style={styles.innercomponenet}>
+                    <Text style={styles.inputcomponenttext}>이메일</Text>
+                    <View style={{flexDirection:'row'}}>
+                        <TextInput
+                            style={[styles.input,{width:185}]}
+                            placeholder="이메일을 입력해주세요"
+                            value={Email}
+                            onChangeText={setEmail}
+                            onFocus={handleFocusEmail}
+                            onBlur={handleBlurEmail}
+                        />
+                        <Text style={[styles.input, { position:'absolute',right:0,color:'#999999'}]}>@yonsei.ac.kr</Text>                        
+                    </View>
+                </View>
+            </View>
+        </View>
+    );
+    const renderEmailCertification = () => (
+        <View>
+            <View style={styles.inputcomponent}>
+                <View style={styles.innercomponenet}>
+                    <TextInput
+                        style={[styles.input, { height:36 }]}
+                        placeholder="이메일을 입력해주세요"
+                        value={Email+'@yonsei.ac.kr'}
+                        onChangeText={setEmail}
+                        editable={false}
+                        onFocus={handleFocusEmail}
+                        onBlur={handleBlurEmail}
+                    />
+                </View>
+            </View>
+            <View style={[styles.inputcomponent, isFocus2 && { borderColor: '#111111' }]}>
+                <View style={styles.innercomponenet}>
+                    <Text style={styles.inputcomponenttext}>인증 코드</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="인증 코드를 입력해주세요"
+                        value={CertificationCode}
+                        onChangeText={setCertificationCode}
+                        onFocus={handleFocusCertificationCode}
+                        onBlur={handleBlurCertificationCode}
+                    />
+                </View>
+            </View>
+            <Text style={{ color: '#DC0000', marginLeft: 10,marginBottom:30 }}>인증 코드가 올바르지 않아요.</Text>
+            <TouchableOpacity style={{marginLeft:10,fontWeight:'medium'}}>
+                <Text style={{ textDecorationColor: '#888888', textDecorationLine: 'underline', fontWeight: '600' }}>인증 코드 재전송</Text>
+            </TouchableOpacity>
         </View>
     );
 
     const renderPasswordSetup = () => (
         <View>
-            <Text style={styles.subtitle}>비밀번호를 설정해주세요</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="비밀번호를 설정해주세요"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-            />
-            <Text style={styles.subtitle}>비밀번호를 확인해주세요</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="비밀번호를 확인해주세요"
-                value={confirmPassword}
-                onChangeText={(text) => {
-                    setConfirmPassword(text);
-                    setPasswordMatch(text === password);
-                }}
-                secureTextEntry
-            />
+            <View style={[styles.inputcomponent, isFocus1 && { borderColor: '#111111' }, !passwordMatch && { borderColor: '#DC0000' }, passwordMatch && confirmPassword !== '' && { borderColor: '#04B014' }]}>
+                <View style={styles.innercomponenet}>
+                    <Text style={styles.inputcomponenttext}>비밀번호</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="이름을 입력해주세요"
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry
+                        onFocus={handleFocusPassword}
+                        onBlur={handleBlurPassword}
+                    />
+                </View>
+            </View>
+            <View style={[styles.inputcomponent, isFocus2 && { borderColor: '#111111' }, !passwordMatch && { borderColor: '#DC0000' }, passwordMatch && confirmPassword !== '' && { borderColor: '#04B014' }]}>
+                <View style={styles.innercomponenet}>
+                    <Text style={styles.inputcomponenttext}>비밀번호 재입력</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="학번을 입력해주세요"
+                        value={confirmPassword}
+                        onChangeText={(text) => {
+                            setConfirmPassword(text);
+                            setPasswordMatch(text === password);
+                        }}
+                        onFocus={handleFocusPasswordre}
+                        onBlur={handleBlurPasswordre}
+                        secureTextEntry
+                    />
+                </View>
+            </View>
             {!passwordMatch && (
                 <Text style={styles.errorText}>비밀번호가 일치하지 않습니다.</Text>
             )}
@@ -175,9 +354,11 @@ const Signin = ({ route, navigation }) => {
     );
 
     const steps = [
-        { title: "자신의 학교를 선택해주세요!", ment: "😄 당신의 학교정보를 제공해줄게요!", component: renderUniversitySelection },
-        { title: "본인의 이름과 학번을 입력해주세요!", ment: "🥳 본인인증을 위한 내용입니다!", component: renderStudentIdName },
-        { title: "비밀번호를 설정해주세요", ment: "👀 로그인할 때 필요한 내용이니 꼭 기억해주세요!", component: renderPasswordSetup },
+        { title: "학교를 선택해 주세요", ment: "당신의 학교에 맞는 맞춤형 정보를\n제공해 드릴게요", component: renderUniversitySelection },
+        { title: "이름과 학번을 알려주세요", ment: "당신의 학교에 맞는 맞춤형 정보를\n제공해 드릴게요", component: renderStudentIdName },
+        { title: "이메일을 입력해주세요", ment: "학교에서 제공하는 이메일 계정만\n아이디로 사용할 수 있어요", component: renderEmailInput },
+        { title: "이메일 계정 인증", ment: "계정확인을 위해 아래 이메일로\n보내드린 인증코드를 입력해주세요", component: renderEmailCertification },
+        { title: "비밀번호를 입력해주세요", ment: "학교에 맞는 맞춤형 정보를\n제공해 드릴게요", component: renderPasswordSetup },
         { title: "개인정보 활용에 동의해주세요!", ment: "👀 학우 여러분의 소중한 개인정보를 위한 내용입니다.", component: renderDataAgree },
         { title: "서명 부탁드립니다!", ment: "🍾 학교 기관에서 쿠폰 지급을 위한 서명 파일입니다.", component: renderSignature },
     ];
@@ -215,9 +396,12 @@ const Signin = ({ route, navigation }) => {
     };
 
     const isNextDisabled =
+        (step === 0 && (univ === '')) ||
         (step === 1 && (name === '' || studentid === '')) ||
-        (step === 2 && (!passwordMatch || password === '' || confirmPassword === '')) ||
-        (step === 3 && !agree);
+        (step === 2 && (Email === '' )) ||
+        (step === 3 && (CertificationCode === '')) ||
+        (step === 4 && (!passwordMatch || password === '' || confirmPassword === '')) ||
+        (step === 5 && !agree);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -254,59 +438,51 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     progressBarContainer: {
-        height: 4,
+        height: 2,
         backgroundColor: '#E0E0E0',
-        width: '100%',
+        marginHorizontal:20,
         top: Platform.OS === 'ios' ? 0 : -35,
     },
     progressBar: {
-        height: 4,
-        backgroundColor: '#84A2BB',
+        height: 2,
+        backgroundColor: '#F4310B',
     },
     contentContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        marginTop:40,
         paddingHorizontal: 30,
     },
     title: {
-        fontSize: 24,
+        fontSize: 28,
         fontWeight: 'bold',
-        textAlign: 'center',
-        marginBottom: 10,
+        textAlign: 'left',
+        marginBottom: 16,
     },
     subtitle: {
-        fontSize: 16,
-        textAlign: 'center',
-        marginBottom: 20,
-    },
-    selectionContainer: {
-        width: '100%',
-        alignItems: 'center',
+        fontSize: 18,
+        textAlign: 'left',
+        marginBottom: 30,
+        color:'#999999',
+        fontWeight:'medium'
     },
     picker: {
         width: '100%',
         height: 200,
     },
     input: {
-        height: 50,
-        width: 300, // 고정 너비 설정
-        backgroundColor: '#f5f5f5',
-        borderRadius: 10,
-        marginBottom: 15,
-        paddingHorizontal: 10,
+        fontSize:18
     },
     button: {
         height: 50,
-        backgroundColor: '#84A2BB',
+        backgroundColor: '#F4310B',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 10,
+        borderRadius: 8,
         marginHorizontal: 20,
-        marginBottom: 80,
+        marginBottom: 34,
     },
     buttonDisabled: {
-        backgroundColor: '#D3D3D3',
+        backgroundColor: 'rgba(244, 49, 11, 0.2)',
     },
     buttonText: {
         color: '#fff',
@@ -316,16 +492,17 @@ const styles = StyleSheet.create({
     errorText: {
         color: 'red',
         fontSize: 14,
-        textAlign: 'center',
-        marginTop: -10,
+        textAlign: 'left',
         marginBottom: 10,
+        marginLeft:10
     },
     successText: {
-        color: 'green',
+        color: '#04B014',
         fontSize: 14,
-        textAlign: 'center',
-        marginTop: -10,
+        textAlign: 'left',
         marginBottom: 10,
+        marginLeft: 10
+
     },
     agreeContainer: {
         flex: 1,
@@ -387,6 +564,58 @@ const styles = StyleSheet.create({
     },
     signaturePlaceholder: {
         color: '#aaa',
+    },
+    selectionContainer:{
+        borderWidth:1,
+        borderColor:'#E5E5EC',
+        borderRadius:12
+    },
+    dropdown: {
+        borderWidth: 1,
+        borderColor:'#fff',
+        marginHorizontal:0,
+        marginVertical:10,
+        height:26,
+        borderRadius:12
+    },
+    dropdowncontainer:{ 
+        borderWidth: 1,
+        marginTop:-3,
+        paddingBottom:8,
+        marginHorizontal:0,
+        borderColor:'#111111',
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12,
+    },
+    placeholderStyle: {
+        fontSize: 18,
+        marginLeft:16,
+        color: '#C7C7C7'
+    },
+    selectedTextStyle: {
+        marginHorizontal:16,
+        fontSize: 18,
+        color:'#111111'
+    },
+    inputcomponent:{
+        borderWidth:1,
+        borderColor:'#E5E5EC',
+        borderRadius:12,
+        marginBottom:12
+    },
+    innercomponenet:{
+        marginHorizontal:16,
+        marginVertical:10
+    },
+    inputcomponenttext:{
+        marginBottom:7,
+        fontSize:12,
+        color:'#767676'
+    },
+    clearButton: {
+        position:'absolute',
+        right:0,
+        bottom:6
     },
 });
 

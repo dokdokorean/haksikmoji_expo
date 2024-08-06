@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import StoreHeader from '../components/StoreHeader';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 
 const GeneralStore = () => {
     const [selectedTab, setSelectedTab] = useState('menu');
+    const [OperationTimeToggle,setOpertationTimeToggle] = useState(false)
 
     const renderContent = () => {
         if (selectedTab === 'menu') {
@@ -41,7 +44,58 @@ const GeneralStore = () => {
             );
         }
     };
+    const fetchOperationTime = () => {
+        return ['9:00 - 10:00', '10:00 - 11:00', '11:00 - 12:00', '12:00 - 13:00', '13:00 - 14:00', '14:00 - 15:00', '15:00 - 16:00'];
+    };
 
+    const times = fetchOperationTime();
+
+    const OperationTime = [
+        { label: '일요일 ' + times[0], value: '0' },
+        { label: '월요일 ' + times[1], value: '1' },
+        { label: '화요일 ' + times[2], value: '2' },
+        { label: '수요일 ' + times[3], value: '3' },
+        { label: '목요일 ' + times[4], value: '4' },
+        { label: '금요일 ' + times[5], value: '5' },
+        { label: '토요일 ' + times[6], value: '6' },
+    ];
+
+    const RenderOperationTime = () => {
+        const [isVisible, setIsVisible] = useState(false);
+
+        const today = new Date();
+        const todayIndex = today.getDay(); // 0 (일요일)부터 6 (토요일)까지의 값 반환
+        const todayOperation = OperationTime[todayIndex];
+
+        return (
+            <View style={styles.container}>
+                <TouchableOpacity
+                    style={styles.toggleButton}
+                    onPress={() => setIsVisible(!isVisible)}
+                >
+                    <Text style={styles.toggleButtonText}>
+                        {`${todayOperation.label.split(' ')[0]} ${todayOperation.label.split(' ')[1]} ${todayOperation.label.split(' ')[2]} ${todayOperation.label.split(' ')[3]}`}
+                    </Text>
+                    <AntDesign
+                        style={{ transform: [{ rotate: isVisible ? '180deg' : '0deg' }], marginLeft: 8 }}
+                        color={'#111111'}
+                        name="down"
+                        size={15}
+                    />
+                </TouchableOpacity>
+                {isVisible && (
+                    <View style={styles.infoContainer}>
+                        {OperationTime.map(item => (
+                            <Text key={item.value} style={[styles.infoText, item.value == todayIndex.toString() && styles.boldText]}>
+                                {item.label}
+                            </Text>
+                        ))}
+                    </View>
+                )}
+            </View>
+        );
+    };
+    
     return (
         <ScrollView style={styles.container}>
             <StoreHeader/>
@@ -52,7 +106,10 @@ const GeneralStore = () => {
                 <Text style={styles.notice}>❗금일 영업시간 변경 안내❗</Text>
                 <Text style={styles.infoText}>전화: 033-760-5154</Text>
                 <Text style={styles.infoText}>위치: 연세플라자 2F</Text>
-                <Text style={styles.infoText}>운영시간: 월 - 목요일 09:00 - 18:00 금요일 휴무 주말 12:30 - 13:30</Text>
+                <View style={styles.OperationTime}>
+                    <Text style={[styles.infoText,{marginRight:10}]}>운영시간:</Text>
+                    {RenderOperationTime()}
+                </View>
             </View>
             <View style={styles.tabSection}>
                 <TouchableOpacity onPress={() => setSelectedTab('menu')}>
@@ -167,6 +224,37 @@ const styles = StyleSheet.create({
     notificationText: {
         fontSize: 16,
         color: '#333',
+    },
+    OperationTime:{
+        flexDirection:'row'
+    },
+    dropdown:{
+        borderWidth: 1,
+        width:100,
+        borderColor: '#fff',
+        marginHorizontal: 0,
+        marginVertical: 10,
+        height: 26,
+        borderRadius: 12
+    },
+    toggleButton: {
+        flexDirection: 'row',
+    },
+    toggleButtonText: {
+        fontSize: 16,
+        color: '#111111',
+    },
+    infoContainer: {
+        marginTop: 3,
+
+    },
+    infoText: {
+        fontSize: 14,
+        color: '#333333',
+        marginBottom: 5,
+    },
+    boldText: {
+        fontWeight: 'bold',
     },
 });
 

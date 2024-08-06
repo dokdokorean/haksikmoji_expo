@@ -18,7 +18,7 @@ const SigninHeader = ({ onBack }) => {
 
 const styles = StyleSheet.create({
     view: {
-        height: 100,
+        height: 120,
         paddingTop: 1,
     },
     infoButton: {
@@ -32,12 +32,12 @@ const styles = StyleSheet.create({
     },
     backButton: {
         position: 'absolute',
-        marginLeft: '7%',
-        marginTop: '16%',
+        marginLeft:20,
+        bottom:30
     },
     image: {
-        width: 30,
-        height: 20,
+        width: 28,
+        height: 28,
         resizeMode: 'contain',
     },
     headment1: {

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Button, ScrollView, TouchableOpacity, StyleSheet, Image, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Button, ScrollView, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { format, startOfWeek, addDays } from 'date-fns';
 import MainHeader from '../components/MainHeader';
 import { BASE_URL } from '../service/Api';
@@ -9,10 +9,11 @@ const Home = ({ navigation }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [weekDays, setWeekDays] = useState([]);
     const [menuList, setMenuList] = useState([]);
+    const [allMenus, setAllMenus] = useState({});
 
     useEffect(() => {
         updateWeekDays(selectedDate);
-        getMenuForDay(selectedDate);
+        fetchAllMenus();
     }, [selectedDate]);
 
     const updateWeekDays = (date) => {
@@ -23,7 +24,8 @@ const Home = ({ navigation }) => {
 
     const handleDayPress = (day) => {
         setSelectedDate(day);
-        getMenuForDay(day);
+        const dayOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][day.getDay()];
+        setMenuList(allMenus[dayOfWeek] || []);
     };
 
     const getCurrentDate = () => {
@@ -35,14 +37,15 @@ const Home = ({ navigation }) => {
         return `${month}월 ${day}일 ${weekDay}`;
     };
 
-    const getMenuForDay = async (date) => {
-        const dayOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()];
+    const fetchAllMenus = async () => {
         try {
             const request = await axios.get(`${BASE_URL}/api/haksik`);
             const response = await request.data;
             const data = await response.body;
 
-            setMenuList(data.menu[dayOfWeek] || []);
+            setAllMenus(data.menu || {});
+            const initialDayOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][selectedDate.getDay()];
+            setMenuList(data.menu[initialDayOfWeek] || []);
         } catch (error) {
             console.error('Error fetching records:', error);
         }
