@@ -575,7 +575,7 @@ const styles = StyleSheet.create({
         borderColor:'#fff',
         marginHorizontal:0,
         marginVertical:10,
-        height:26,
+        height:36,
         borderRadius:12
     },
     dropdowncontainer:{ 
@@ -605,10 +605,11 @@ const styles = StyleSheet.create({
     },
     innercomponenet:{
         marginHorizontal:16,
-        marginVertical:10
+        marginVertical:10,
+        height:48
     },
     inputcomponenttext:{
-        marginBottom:7,
+        marginBottom:8,
         fontSize:12,
         color:'#767676'
     },

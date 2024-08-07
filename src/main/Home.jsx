@@ -16,9 +16,9 @@ const Home = ({ navigation }) => {
     const handleRefresh = async () => {
         console.log('handleRefreshStore');
         setIsRefreshing(true);
-        fetchAllMenus();
+        await fetchAllMenus();
         setIsRefreshing(false);
-        getRandomMessage();
+        setWelcomeMessage(getRandomMessage());
     };
 
     const welcomeMessages = [
@@ -29,15 +29,17 @@ const Home = ({ navigation }) => {
     ];
 
     useEffect(() => {
-        fetchAllMenus();
-        loadMenus();
-        setWelcomeMessage(getRandomMessage());
+        const initialize = async () => {
+            await fetchAllMenus();
+            setWelcomeMessage(getRandomMessage());
+        };
+        initialize();
     }, []);
 
     useEffect(() => {
         updateWeekDays(selectedDate);
         loadMenus();
-    }, [selectedDate]);
+    }, [selectedDate, allMenus]);
 
     const updateWeekDays = (date) => {
         const start = startOfWeek(date, { weekStartsOn: 0 });
@@ -72,6 +74,7 @@ const Home = ({ navigation }) => {
             const data = await response.body;
 
             setAllMenus(data.menu || {});
+            loadMenus();
         } catch (error) {
             console.error('Error fetching records:', error);
         }
@@ -89,7 +92,11 @@ const Home = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <MainHeader />
-            <ScrollView style={styles.main} refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}showsVerticalScrollIndicator={false}>
+            <ScrollView
+                style={styles.main}
+                refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
+                showsVerticalScrollIndicator={false}
+            >
                 <Text style={styles.welcomeMessages}>{welcomeMessage}</Text>
                 <Text style={styles.date}>{getCurrentDate()}</Text>
 
