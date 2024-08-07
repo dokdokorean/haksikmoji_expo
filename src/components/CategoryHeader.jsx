@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, Text, StyleSheet, View, Image, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const CategoryHeader = ({ onBack }) => {
+    const navigation = useNavigation();
     const [selectedOption, setSelectedOption] = useState('건물별');
     const [selectedBuilding, setSelectedBuilding] = useState('건물 1');
     const [selectedCategory, setSelectedCategory] = useState('종류 1');
     const buildingNames = ['건물 1', '건물 2', '건물 3', '건물 4', '건물 5', '건물 6'];
     const categoryNames = ['종류 1', '종류 2', '종류 3', '종류 4', '종류 5', '종류 6'];
+
+    const Search = () => {
+        navigation.navigate('Search')
+    };
 
     const renderStores = () => {
         const names = selectedOption === '건물별' ? buildingNames : categoryNames;
@@ -66,7 +72,7 @@ const CategoryHeader = ({ onBack }) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.buttonview}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={Search}>
                     <Text style={styles.searchButton}>🔍</Text>
                 </TouchableOpacity>
             </View>

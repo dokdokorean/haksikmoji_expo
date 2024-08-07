@@ -69,7 +69,7 @@ const Signin = ({ route, navigation }) => {
         setisFocus1(false);
     };
 
-    const handleBlurCertificationCode= () => {
+    const handleBlurCertificationCode = () => {
         setisFocus2(false);
     };
 
@@ -77,7 +77,7 @@ const Signin = ({ route, navigation }) => {
         setisFocus1(true);
     };
 
-    const handleFocusPasswordre= () => {
+    const handleFocusPasswordre = () => {
         setisFocus2(true);
     };
 
@@ -98,12 +98,12 @@ const Signin = ({ route, navigation }) => {
     };
 
     const renderUniversitySelection = () => (
-        <View style={[styles.selectionContainer, isFocus1 && { borderColor:'#fff',borderBottomRightRadius:0,borderBottomLeftRadius:0}]}>
+        <View style={[styles.selectionContainer, isFocus1 && { borderColor: '#fff', borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }]}>
             <View style={styles.innerContainer}>
                 <Dropdown
-                    style={[styles.dropdown, isFocus1 && { borderColor: '#111111', height:48,top:-11,borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }]}
+                    style={[styles.dropdown, isFocus1 && { borderColor: '#111111', height: 56, top: -10, borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }]}
                     placeholderStyle={styles.placeholderStyle}
-                    selectedTextStyle={styles.selectedTextStyle}
+                    selectedTextStyle={{marginLeft:16}}
                     data={data}
                     maxHeight={300}
                     labelField="label"
@@ -120,56 +120,64 @@ const Signin = ({ route, navigation }) => {
                     renderRightIcon={() => (
                         <AntDesign
                             style={{
-                                transform: [{ rotate: isFocus1 ? '180deg' : '0deg' }],marginRight:16
+                                transform: [{ rotate: isFocus1 ? '180deg' : '0deg' }], marginRight: 16
                             }}
                             color={'#111111'}
                             name="down"
                             size={15}
                         />
                     )}
-                />            
-            </View> 
+                />
+            </View>
         </View>
     );
     const renderStudentIdName = () => (
         <View>
-            <View style={[styles.inputcomponent,isFocus1 && {borderColor:'#111111'}]}>
+            <View style={[styles.inputcomponent, isFocus1 && { borderColor: '#111111' }]}>
                 <View style={styles.innercomponenet}>
-                    <Text style={styles.inputcomponenttext}>이름</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="이름을 입력해주세요"
-                        value={name}
-                        onChangeText={setName}
-                        onFocus={handleFocusName}
-                        onBlur={handleBlurName}
-                    />
-                    {name.length > 0 && (
-                        <TouchableOpacity onPress={clearName} style={styles.clearButton}>
-                            <Image style={{resizeMode:'contain',width:14,height:14}} source={require('../assets/inputcomponenteraseall.png')}/>
-                        </TouchableOpacity>
-                    )}                
+                    <View style={styles.inputcomponenttextcontainer}>
+                        <Text style={styles.inputcomponenttext}>이름</Text>
+                    </View>
+                    <View style={styles.textinputcontainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="이름을 입력해주세요"
+                            value={name}
+                            onChangeText={setName}
+                            onFocus={handleFocusName}
+                            onBlur={handleBlurName}
+                        />
+                        {name.length > 0 && (
+                            <TouchableOpacity onPress={clearName} style={styles.clearButton}>
+                                <Image style={{ resizeMode: 'contain', width: 14, height: 14 }} source={require('../assets/inputcomponenteraseall.png')} />
+                            </TouchableOpacity>
+                        )}
+                    </View>
                 </View>
             </View>
             <View style={[styles.inputcomponent, isFocus2 && { borderColor: '#111111' }]}>
                 <View style={styles.innercomponenet}>
-                    <Text style={styles.inputcomponenttext}>학번</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="학번을 입력해주세요"
-                        value={studentid}
-                        onChangeText={setStudentid}
-                        onFocus={handleFocusStudentid}
-                        onBlur={handleBlurStudentid}
-                    />
-                    {studentid.length > 0 && (
-                        <TouchableOpacity onPress={clearSudentid} style={styles.clearButton}>
-                            <Image style={{ resizeMode: 'contain', width: 14, height: 14 }} source={require('../assets/inputcomponenteraseall.png')} />
-                        </TouchableOpacity>
-                    )}
+                    <View style={styles.inputcomponenttextcontainer}>
+                        <Text style={styles.inputcomponenttext}>학번</Text>
+                    </View>
+                    <View style={styles.textinputcontainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="학번을 입력해주세요"
+                            value={studentid}
+                            onChangeText={setStudentid}
+                            onFocus={handleFocusStudentid}
+                            onBlur={handleBlurStudentid}
+                        />
+                        {studentid.length > 0 && (
+                            <TouchableOpacity onPress={clearSudentid} style={styles.clearButton}>
+                                <Image style={{ resizeMode: 'contain', width: 14, height: 14 }} source={require('../assets/inputcomponenteraseall.png')} />
+                            </TouchableOpacity>
+                        )}
+                    </View>
                 </View>
             </View>
-            <Text style={{ color:'#DC0000', marginLeft:10}}>이름 혹은 학번이 일치하지 않아요.</Text>
+            <Text style={{ color: '#DC0000', marginLeft: 10 }}>이름 혹은 학번이 일치하지 않아요.</Text>
         </View>
     );
 
@@ -177,17 +185,21 @@ const Signin = ({ route, navigation }) => {
         <View>
             <View style={[styles.inputcomponent, isFocus1 && { borderColor: '#111111' }]}>
                 <View style={styles.innercomponenet}>
-                    <Text style={styles.inputcomponenttext}>이메일</Text>
-                    <View style={{flexDirection:'row'}}>
-                        <TextInput
-                            style={[styles.input,{width:185}]}
-                            placeholder="이메일을 입력해주세요"
-                            value={Email}
-                            onChangeText={setEmail}
-                            onFocus={handleFocusEmail}
-                            onBlur={handleBlurEmail}
-                        />
-                        <Text style={[styles.input, { position:'absolute',right:0,color:'#999999'}]}>@yonsei.ac.kr</Text>                        
+                    <View style={styles.inputcomponenttextcontainer}>
+                        <Text style={styles.inputcomponenttext}>이메일</Text>
+                    </View>
+                    <View style={styles.textinputcontainer}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <TextInput
+                                style={[styles.input, { width: 185 }]}
+                                placeholder="이메일을 입력해주세요"
+                                value={Email}
+                                onChangeText={setEmail}
+                                onFocus={handleFocusEmail}
+                                onBlur={handleBlurEmail}
+                            />
+                            <Text style={[styles.input, { position: 'absolute', right: 0, color: '#999999' }]}>@yonsei.ac.kr</Text>
+                        </View>
                     </View>
                 </View>
             </View>
@@ -195,34 +207,40 @@ const Signin = ({ route, navigation }) => {
     );
     const renderEmailCertification = () => (
         <View>
-            <View style={styles.inputcomponent}>
-                <View style={styles.innercomponenet}>
-                    <TextInput
-                        style={[styles.input, { height:36 }]}
-                        placeholder="이메일을 입력해주세요"
-                        value={Email+'@yonsei.ac.kr'}
-                        onChangeText={setEmail}
-                        editable={false}
-                        onFocus={handleFocusEmail}
-                        onBlur={handleBlurEmail}
-                    />
+            <View style={[styles.inputcomponent, isFocus1 && { borderColor: '#111111' }]}>
+                <View style={[styles.innercomponenet,{justifyContent:'center'}]}>
+                    <View style={styles.textinputcontainer}>
+                        <TextInput
+                            style={[styles.input, { height: 36 }]}
+                            placeholder="이메일을 입력해주세요"
+                            value={Email + '@yonsei.ac.kr'}
+                            onChangeText={setEmail}
+                            editable={false}
+                            onFocus={handleFocusEmail}
+                            onBlur={handleBlurEmail}
+                        />
+                    </View>
                 </View>
             </View>
             <View style={[styles.inputcomponent, isFocus2 && { borderColor: '#111111' }]}>
                 <View style={styles.innercomponenet}>
-                    <Text style={styles.inputcomponenttext}>인증 코드</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="인증 코드를 입력해주세요"
-                        value={CertificationCode}
-                        onChangeText={setCertificationCode}
-                        onFocus={handleFocusCertificationCode}
-                        onBlur={handleBlurCertificationCode}
-                    />
+                    <View style={styles.inputcomponenttextcontainer}>
+                        <Text style={styles.inputcomponenttext}>인증 코드</Text>
+                    </View>
+                    <View style={styles.textinputcontainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="인증 코드를 입력해주세요"
+                            value={CertificationCode}
+                            onChangeText={setCertificationCode}
+                            onFocus={handleFocusCertificationCode}
+                            onBlur={handleBlurCertificationCode}
+                        />
+                    </View>
                 </View>
             </View>
-            <Text style={{ color: '#DC0000', marginLeft: 10,marginBottom:30 }}>인증 코드가 올바르지 않아요.</Text>
-            <TouchableOpacity style={{marginLeft:10,fontWeight:'medium'}}>
+            <Text style={{ color: '#DC0000', marginLeft: 10, marginBottom: 30 }}>인증 코드가 올바르지 않아요.</Text>
+            <TouchableOpacity style={{ marginLeft: 10, fontWeight: 'medium' }}>
                 <Text style={{ textDecorationColor: '#888888', textDecorationLine: 'underline', fontWeight: '600' }}>인증 코드 재전송</Text>
             </TouchableOpacity>
         </View>
@@ -230,35 +248,43 @@ const Signin = ({ route, navigation }) => {
 
     const renderPasswordSetup = () => (
         <View>
-            <View style={[styles.inputcomponent, isFocus1 && { borderColor: '#111111' }, !passwordMatch && { borderColor: '#DC0000' }, passwordMatch && confirmPassword !== '' && { borderColor: '#04B014' }]}>
+            <View style={[styles.inputcomponent, isFocus1 && { borderColor: '#111111' }]}>
                 <View style={styles.innercomponenet}>
-                    <Text style={styles.inputcomponenttext}>비밀번호</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="이름을 입력해주세요"
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry
-                        onFocus={handleFocusPassword}
-                        onBlur={handleBlurPassword}
-                    />
+                    <View style={styles.inputcomponenttextcontainer}>
+                        <Text style={styles.inputcomponenttext}>비밀번호</Text>
+                    </View>
+                    <View style={styles.textinputcontainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="비밀번호를 입력해주세요"
+                            value={password}
+                            onChangeText={setPassword}
+                            secureTextEntry
+                            onFocus={handleFocusPassword}
+                            onBlur={handleBlurPassword}
+                        />
+                    </View>
                 </View>
             </View>
-            <View style={[styles.inputcomponent, isFocus2 && { borderColor: '#111111' }, !passwordMatch && { borderColor: '#DC0000' }, passwordMatch && confirmPassword !== '' && { borderColor: '#04B014' }]}>
+            <View style={[styles.inputcomponent, isFocus2 && { borderColor: '#111111' }]}>
                 <View style={styles.innercomponenet}>
-                    <Text style={styles.inputcomponenttext}>비밀번호 재입력</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="학번을 입력해주세요"
-                        value={confirmPassword}
-                        onChangeText={(text) => {
-                            setConfirmPassword(text);
-                            setPasswordMatch(text === password);
-                        }}
-                        onFocus={handleFocusPasswordre}
-                        onBlur={handleBlurPasswordre}
-                        secureTextEntry
-                    />
+                    <View style={styles.inputcomponenttextcontainer}>
+                        <Text style={styles.inputcomponenttext}>비밀번호 재입력</Text>
+                    </View>
+                    <View style={styles.textinputcontainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="비밀번호를 재입력해주세요"
+                            value={confirmPassword}
+                            onChangeText={(text) => {
+                                setConfirmPassword(text);
+                                setPasswordMatch(text === password);
+                            }}
+                            onFocus={handleFocusPasswordre}
+                            onBlur={handleBlurPasswordre}
+                            secureTextEntry
+                        />
+                    </View>
                 </View>
             </View>
             {!passwordMatch && (
@@ -340,9 +366,10 @@ const Signin = ({ route, navigation }) => {
             >
                 {signature ? (
                     <Image
-                        source={{uri : signature}}
+                        source={{ uri: signature }}
                         style={{
-                            width: 300, height: 300, resizeMode: 'contain', transform: [{ rotate: '-90deg' }],}}
+                            width: 300, height: 300, resizeMode: 'contain', transform: [{ rotate: '-90deg' }],
+                        }}
                     />
                 ) : (
                     <Text style={styles.signaturePlaceholder}>
@@ -398,7 +425,7 @@ const Signin = ({ route, navigation }) => {
     const isNextDisabled =
         (step === 0 && (univ === '')) ||
         (step === 1 && (name === '' || studentid === '')) ||
-        (step === 2 && (Email === '' )) ||
+        (step === 2 && (Email === '')) ||
         (step === 3 && (CertificationCode === '')) ||
         (step === 4 && (!passwordMatch || password === '' || confirmPassword === '')) ||
         (step === 5 && !agree);
@@ -433,77 +460,6 @@ const Signin = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-    },
-    progressBarContainer: {
-        height: 2,
-        backgroundColor: '#E0E0E0',
-        marginHorizontal:20,
-        top: Platform.OS === 'ios' ? 0 : -35,
-    },
-    progressBar: {
-        height: 2,
-        backgroundColor: '#F4310B',
-    },
-    contentContainer: {
-        flex: 1,
-        marginTop:40,
-        paddingHorizontal: 30,
-    },
-    title: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        textAlign: 'left',
-        marginBottom: 16,
-    },
-    subtitle: {
-        fontSize: 18,
-        textAlign: 'left',
-        marginBottom: 30,
-        color:'#999999',
-        fontWeight:'medium'
-    },
-    picker: {
-        width: '100%',
-        height: 200,
-    },
-    input: {
-        fontSize:18
-    },
-    button: {
-        height: 50,
-        backgroundColor: '#F4310B',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 8,
-        marginHorizontal: 20,
-        marginBottom: 34,
-    },
-    buttonDisabled: {
-        backgroundColor: 'rgba(244, 49, 11, 0.2)',
-    },
-    buttonText: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    errorText: {
-        color: 'red',
-        fontSize: 14,
-        textAlign: 'left',
-        marginBottom: 10,
-        marginLeft:10
-    },
-    successText: {
-        color: '#04B014',
-        fontSize: 14,
-        textAlign: 'left',
-        marginBottom: 10,
-        marginLeft: 10
-
-    },
     agreeContainer: {
         flex: 1,
         alignItems: 'center',
@@ -522,10 +478,22 @@ const styles = StyleSheet.create({
         fontSize: 14,
         lineHeight: 20,
     },
-    checkboxContainer: {
-        marginVertical:50,
-        flexDirection: 'row',
+    button: {
+        height: 50,
+        backgroundColor: '#F4310B',
+        justifyContent: 'center',
         alignItems: 'center',
+        borderRadius: 8,
+        marginHorizontal: 20,
+        marginBottom: 34,
+    },
+    buttonDisabled: {
+        backgroundColor: 'rgba(244, 49, 11, 0.2)',
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
     checkbox: {
         width: 20,
@@ -536,22 +504,109 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginRight: 10,
     },
+    checkboxContainer: {
+        marginVertical: 50,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    checkboxLabel: {
+        fontSize: 16,
+    },
     checkboxTick: {
         width: 14,
         height: 14,
         backgroundColor: '#84A2BB',
     },
-    checkboxLabel: {
-        fontSize: 16,
+    clearButton: {
+        position: 'absolute',
+        right: 0,
+        bottom: 6
+    },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    contentContainer: {
+        flex: 1,
+        marginTop: 40,
+        paddingHorizontal: 30,
+    },
+    dropdown: {
+        borderWidth: 1,
+        borderColor: '#fff',
+        marginHorizontal: 0,
+        marginVertical: 10,
+        height: 36,
+        borderRadius: 12
+    },
+    dropdowncontainer: {
+        borderWidth: 1,
+        marginTop: -3,
+        paddingBottom: 8,
+        marginHorizontal: 0,
+        borderColor: '#111111',
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12,
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 14,
+        textAlign: 'left',
+        marginBottom: 10,
+        marginLeft: 10
+    },
+    input: {
+        fontSize: 18,
+    },
+    inputcomponent: {
+        borderWidth: 1,
+        borderColor: '#E5E5EC',
+        borderRadius: 12,
+        marginBottom: 12
+    },
+    inputcomponenttext: {
+        fontSize: 12,
+        color: '#767676',
+    },
+    inputcomponenttextcontainer: {
+        marginBottom: 8,
+        height: 20,
+        justifyContent: 'center',  // 수직 가운데 정렬
+    },
+    innercomponenet: {
+        marginHorizontal: 16,
+        marginTop: 10,
+        marginBottom: 10,
+        height: 48,
+    },
+    placeholderStyle: {
+        fontSize: 18,
+        marginLeft: 16,
+        color: '#C7C7C7'
+    },
+    picker: {
+        width: '100%',
+        height: 200,
+    },
+    progressBar: {
+        height: 2,
+        backgroundColor: '#F4310B',
+    },
+    progressBarContainer: {
+        height: 2,
+        backgroundColor: '#E0E0E0',
+        marginHorizontal: 20,
+        top: Platform.OS === 'ios' ? 0 : -35,
+    },
+    selectionContainer: {
+        borderWidth: 1,
+        borderColor: '#E5E5EC',
+        borderRadius: 12
     },
     signatureContainer: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    signatureText: {
-        fontSize: 18,
-        marginBottom: 20,
     },
     signaturePad: {
         width: 300,
@@ -565,58 +620,35 @@ const styles = StyleSheet.create({
     signaturePlaceholder: {
         color: '#aaa',
     },
-    selectionContainer:{
-        borderWidth:1,
-        borderColor:'#E5E5EC',
-        borderRadius:12
-    },
-    dropdown: {
-        borderWidth: 1,
-        borderColor:'#fff',
-        marginHorizontal:0,
-        marginVertical:10,
-        height:36,
-        borderRadius:12
-    },
-    dropdowncontainer:{ 
-        borderWidth: 1,
-        marginTop:-3,
-        paddingBottom:8,
-        marginHorizontal:0,
-        borderColor:'#111111',
-        borderBottomLeftRadius: 12,
-        borderBottomRightRadius: 12,
-    },
-    placeholderStyle: {
+    signatureText: {
         fontSize: 18,
-        marginLeft:16,
-        color: '#C7C7C7'
+        marginBottom: 20,
     },
-    selectedTextStyle: {
-        marginHorizontal:16,
+    subtitle: {
         fontSize: 18,
-        color:'#111111'
+        textAlign: 'left',
+        marginBottom: 30,
+        color: '#999999',
+        fontWeight: 'medium'
     },
-    inputcomponent:{
-        borderWidth:1,
-        borderColor:'#E5E5EC',
-        borderRadius:12,
-        marginBottom:12
+    successText: {
+        color: '#04B014',
+        fontSize: 14,
+        textAlign: 'left',
+        marginBottom: 10,
+        marginLeft: 10
+
     },
-    innercomponenet:{
-        marginHorizontal:16,
-        marginVertical:10,
-        height:48
+    textinputcontainer: {
+        height: 20,
+        justifyContent: 'center',
+        bottom: 1
     },
-    inputcomponenttext:{
-        marginBottom:8,
-        fontSize:12,
-        color:'#767676'
-    },
-    clearButton: {
-        position:'absolute',
-        right:0,
-        bottom:6
+    title: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        marginBottom: 16,
     },
 });
 
