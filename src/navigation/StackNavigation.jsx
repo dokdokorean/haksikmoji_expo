@@ -10,6 +10,7 @@ import Like from '../main/Like';
 import Myinfo from '../main/Myinfo';
 import GeneralStore from '../storedetails/GeneralStore'
 import Search from '../search/Search';
+import SearchResult from '../search/SearchResult';
 
 const Stack = createStackNavigator();
 
@@ -65,6 +66,11 @@ const StackNavigation = () => {
                 name="Search"
                 component={Search}
                 options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="SearchResult"
+                component={SearchResult}
+                options={{ headerShown: false, gestureEnabled: false }}
             />
         </Stack.Navigator>
     );

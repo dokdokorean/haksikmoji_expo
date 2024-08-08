@@ -41,6 +41,9 @@ const Signin = ({ route, navigation }) => {
     const [isFocus1, setisFocus1] = useState(false);
     const [isFocus2, setisFocus2] = useState(false);
 
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+
     const handleFocusName = () => {
         setisFocus1(true);
     };
@@ -97,11 +100,19 @@ const Signin = ({ route, navigation }) => {
         setStudentid('');
     };
 
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
+
+    const toggleConfirmPasswordVisibility = () => {
+        setConfirmPasswordVisible(!confirmPasswordVisible);
+    };
+
     const renderUniversitySelection = () => (
         <View style={[styles.selectionContainer, isFocus1 && { borderColor: '#fff', borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }]}>
             <View style={styles.innerContainer}>
                 <Dropdown
-                    style={[styles.dropdown, isFocus1 && { borderColor: '#111111', height: 56, top: -10, borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }]}
+                    style={[styles.dropdown, isFocus1 && { borderColor: '#111111', height: 56, top: -11, borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }]}
                     placeholderStyle={styles.placeholderStyle}
                     selectedTextStyle={{marginLeft:16}}
                     data={data}
@@ -248,32 +259,35 @@ const Signin = ({ route, navigation }) => {
 
     const renderPasswordSetup = () => (
         <View>
-            <View style={[styles.inputcomponent, isFocus1 && { borderColor: '#111111' }]}>
+            <View style={[styles.inputcomponent, isFocus1 && { borderColor: '#111111' }, !passwordMatch && { borderColor: 'red' }, passwordMatch && confirmPassword !== '' && { borderColor: '#04B014' }]}>
                 <View style={styles.innercomponenet}>
                     <View style={styles.inputcomponenttextcontainer}>
                         <Text style={styles.inputcomponenttext}>비밀번호</Text>
                     </View>
-                    <View style={styles.textinputcontainer}>
+                    <View style={[styles.textinputcontainer, { flexDirection: 'row', }]}>
                         <TextInput
-                            style={styles.input}
+                            style={[styles.input, { position: 'absolute', width: '100%', left: 0 }]}
                             placeholder="비밀번호를 입력해주세요"
                             value={password}
                             onChangeText={setPassword}
-                            secureTextEntry
+                            secureTextEntry={!passwordVisible}
                             onFocus={handleFocusPassword}
                             onBlur={handleBlurPassword}
                         />
+                        <TouchableOpacity style={styles.visibilitytoggle} onPress={togglePasswordVisibility}>
+                            <Text>{passwordVisible ? '숨기기' : '보이기'}</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
-            <View style={[styles.inputcomponent, isFocus2 && { borderColor: '#111111' }]}>
+            <View style={[styles.inputcomponent, isFocus2 && { borderColor: '#111111' }, !passwordMatch && { borderColor: 'red' }, passwordMatch && confirmPassword !== '' && { borderColor: '#04B014' }]}>
                 <View style={styles.innercomponenet}>
                     <View style={styles.inputcomponenttextcontainer}>
                         <Text style={styles.inputcomponenttext}>비밀번호 재입력</Text>
                     </View>
-                    <View style={styles.textinputcontainer}>
+                    <View style={[styles.textinputcontainer, {flexDirection: 'row',}]}>
                         <TextInput
-                            style={styles.input}
+                            style={[styles.input,{position:'absolute',width:'100%',left:0}]}
                             placeholder="비밀번호를 재입력해주세요"
                             value={confirmPassword}
                             onChangeText={(text) => {
@@ -282,8 +296,11 @@ const Signin = ({ route, navigation }) => {
                             }}
                             onFocus={handleFocusPasswordre}
                             onBlur={handleBlurPasswordre}
-                            secureTextEntry
+                            secureTextEntry={!confirmPasswordVisible}
                         />
+                        <TouchableOpacity style={styles.visibilitytoggle} onPress={toggleConfirmPasswordVisibility}>
+                            <Text>{confirmPasswordVisible ? '숨기기' : '보이기'}</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -650,6 +667,10 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         marginBottom: 16,
     },
+    visibilitytoggle:{
+        position:'absolute',
+        right:0
+    }
 });
 
 export default Signin;

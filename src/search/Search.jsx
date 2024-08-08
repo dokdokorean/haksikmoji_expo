@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SearchHeader from '../components/SearchHeader';
 
-const Search = () => {
+const Search = ({ navigation }) => {
     const [searchText, setSearchText] = useState('');
     const [recentSearches, setRecentSearches] = useState([]);
     const searchInputRef = useRef(null);
@@ -35,11 +35,19 @@ const Search = () => {
 
         setRecentSearches(updatedSearches);
         setSearchText('');
+        navigation.navigate('SearchResult', { searchText });
 
         try {
             await AsyncStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
         } catch (error) {
             console.error('Error saving recent searches:', error);
+        }
+    };
+
+    const RecentKeywordSearch = async (id) => {
+        const SearchKeyword = recentSearches.find(search => search.id === id);
+        if (SearchKeyword) {
+            navigation.navigate('SearchResult', { searchText: SearchKeyword.text });
         }
     };
 
@@ -68,9 +76,11 @@ const Search = () => {
                 <Text style={styles.searchButtonText}>Search</Text>
             </TouchableOpacity>
             <ScrollView style={styles.recentSearchesContainer} horizontal showsHorizontalScrollIndicator={false}>
-                {recentSearches.map((search, index) => (
+                {recentSearches.map((search) => (
                     <View key={search.id} style={styles.searchItem}>
-                        <Text>{search.text}</Text>
+                        <TouchableOpacity onPress={() => RecentKeywordSearch(search.id)}>
+                            <Text>{search.text}</Text>
+                        </TouchableOpacity>
                         <TouchableOpacity onPress={() => deleteSearchItem(search.id)}>
                             <Text style={styles.deleteButton}>X</Text>
                         </TouchableOpacity>
